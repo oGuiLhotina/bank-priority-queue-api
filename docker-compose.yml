@@ -1,0 +1,41 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-banco}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-banco}
+      POSTGRES_DB: ${POSTGRES_DB:-fila_de_atendimento}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - dados_postgres:/var/lib/postgresql/data
+    healthcheck:
+      # A API so sobe depois que o banco aceita conexao, senao o TypeORM
+      # gastaria as tentativas de retry logo no primeiro `up`.
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-banco} -d ${POSTGRES_DB:-fila_de_atendimento}']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: ${POSTGRES_USER:-banco}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-banco}
+      POSTGRES_DB: ${POSTGRES_DB:-fila_de_atendimento}
+      PORT: 3000
+    ports:
+      - '${PORT:-3000}:3000'
+    healthcheck:
+      test: ['CMD', 'node', '-e', "require('node:http').get('http://127.0.0.1:3000/atendimentos-bancarios', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  dados_postgres:

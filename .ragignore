@@ -1,0 +1,17 @@
+# O que o LightRAG não indexa neste projeto.
+
+# Regenerável
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+package-lock.json
+
+# Segredo
+.env
+.env.*
+!.env.example
+
+# Suíte de testes: indexar o que ela prova, não cada asserção.
+# O README já descreve a cobertura.
+*.spec.ts
