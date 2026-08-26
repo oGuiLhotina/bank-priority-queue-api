@@ -30,7 +30,10 @@ async function bootstrap(): Promise<void> {
       .addTag('atendimentos-bancarios', 'CRUD da fila e regra de prioridade')
       .build(),
   );
-  SwaggerModule.setup('docs', app, documento, { customSiteTitle: 'BankPriorityQueueApi' });
+  SwaggerModule.setup('docs', app, documento, {
+    customSiteTitle: 'BankPriorityQueueApi',
+    customCss: '.swagger-ui .topbar { display: none }',
+  });
 
   await app.listen(porta, '0.0.0.0');
   new Logger('bootstrap').log(`API em http://localhost:${porta} — documentacao em /docs`);
