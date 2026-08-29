@@ -50,6 +50,20 @@ Duas consequências do corte, decididas com ele:
 Também por decisão do usuário: CPF volta **formatado por extenso** na resposta
 (era mascarado), porque o avaliador confere o dado que cadastrou.
 
+## Auditoria de segurança (2026-08-27) — seguranca-prelaunch.md
+
+- [ ] **WARN — item 8, credencial de banco com privilégio mínimo.** `POSTGRES_USER`
+  (`docker-compose.yml:5`) é o mesmo usuário bootstrap da imagem oficial
+  `postgres:16-alpine` — superuser da instância. Instância isolada, single-tenant,
+  sem dado de terceiro: WARN registrado, não FAIL. Criar role apartado só se o
+  projeto sair do escopo acadêmico (produção real, dado sensível).
+- CSRF (item 15) e link de reset de senha (item 12): **N/A** — API REST sem
+  sessão de cookie/formulário HTML e sem fluxo de autenticação de usuário final
+  (enunciado não pede login).
+- Demais itens do gate: query parametrizada via TypeORM (PASS), `.env` fora do
+  git (PASS, ver `.gitignore`), rate limit e billing cap N/A (sem custo por
+  request, projeto acadêmico sem exposição pública real).
+
 ## Revisão
 
 Entregue: API NestJS em Clean Architecture (domain / application /
