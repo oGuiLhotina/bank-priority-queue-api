@@ -6,7 +6,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-banco}
       POSTGRES_DB: ${POSTGRES_DB:-fila_de_atendimento}
     ports:
-      - '${POSTGRES_PORT:-5432}:5432'
+      # loopback: com o fallback banco/banco, publicar na LAN abre o Postgres
+      - '127.0.0.1:${POSTGRES_PORT:-5432}:5432'
     volumes:
       - dados_postgres:/var/lib/postgresql/data
     healthcheck:
@@ -30,7 +31,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-fila_de_atendimento}
       PORT: 3000
     ports:
-      - '${PORT:-3000}:3000'
+      - '127.0.0.1:${PORT:-3000}:3000'
     healthcheck:
       test: ['CMD', 'node', '-e', "require('node:http').get('http://127.0.0.1:3000/atendimentos-bancarios', r => process.exit(r.statusCode === 200 ? 0 : 1)).on('error', () => process.exit(1))"]
       interval: 10s
