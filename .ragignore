@@ -11,6 +11,16 @@ package-lock.json
 .env
 .env.*
 !.env.example
+secrets/
+*.key
+*.pem
+
+# Ruído operacional e quarentena de faxina
+logs/
+*.log
+tmp/
+.cache/
+_lixeira/
 
 # Suíte de testes: indexar o que ela prova, não cada asserção.
 # O README já descreve a cobertura.

@@ -6,6 +6,8 @@ NestJS 11 + TypeScript + Postgres 16 (Docker Compose) + TypeORM.
 
 Explicação completa (regra de prioridade, justificativa do heap, SOLID,
 roteiro de apresentação): `README.md`. Não duplicar aqui.
+Escopo e fora de escopo: `.claude/PRD.md`. Camadas e fluxo:
+`.claude/ARCHITECTURE.md`. RAG: `.claude/RAG_INIT.md`.
 
 ## Onde fica o quê
 
