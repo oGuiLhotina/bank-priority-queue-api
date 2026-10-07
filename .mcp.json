@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "lightrag": {
+      "command": "python",
+      "args": ["../scripts/lightrag_mcp.py"],
+      "env": { "LIGHTRAG_URL": "http://localhost:9621" }
+    }
+  }
+}
